@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editar Perfil - Automotriz Rosales</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+:root {
+    --azul-primario: #1B2841;
+    --azul-claro: #A9C2DA;
+    --gris-fondo: #E6EBEF;
+    --gris-texto: #43484D;
+    --blanco: #ffffff;
+    --azul-hover: #142f54;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--gris-fondo);
+    margin: 0;
+    padding: 0;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: var(--azul-primario);
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    padding: 25px 20px;
+    box-shadow: 3px 0 12px rgba(0,0,0,0.15);
+}
+
+.sidebar h2 {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+.sidebar a:hover {
+    background: var(--azul-hover);
+    padding-left: 22px;
+}
+
+/* CONTENIDO */
+.content {
+    margin-left: 250px;
+    padding: 30px;
+}
+
+/* HEADER */
+.main-header {
+    background: var(--blanco);
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header h3 {
+    margin: 0;
+    color: var(--azul-primario);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.profile-box {
+    text-align: right;
+    color: var(--gris-texto);
+}
+
+/* FORMULARIO */
+.edit-card {
+    background: var(--blanco);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.edit-card h4 {
+    color: var(--azul-primario);
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+label {
+    font-weight: 600;
+    color: var(--azul-primario);
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.btn-primary {
+    background: var(--azul-primario);
+    border: none;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--azul-hover);
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.btn-secondary {
+    background: #ccc;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    color: #000;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>⚙ Panel</h2>
+    <a href="{{ url_for('cliente_dashboard') }}"><i class="bi bi-house-door-fill"></i> Inicio</a>
+    <a href="{{ url_for('editar_perfil') }}"><i class="bi bi-person-fill"></i> Editar Perfil</a>
+    <a href="{{ url_for('index') }}"><i class="bi bi-box-arrow-left"></i> Salir</a>
+</div>
+
+<!-- CONTENIDO -->
+<div class="content">
+    <div class="main-header">
+        <h3>Editar perfil - {{ cliente.usuario }}</h3>
+        <div class="profile-box">
+            <strong>{{ cliente.correo }}</strong>
+        </div>
+    </div>
+
+    <div class="edit-card">
+        <h4>Actualizar mis datos</h4>
+        <form action="{{ url_for('editar_perfil') }}" method="POST">
+            <div class="mb-3">
+                <label for="usuario">Nombre de usuario</label>
+                <input type="text" class="form-control" id="usuario" name="usuario" value="{{ cliente.usuario }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" class="form-control" id="correo" name="correo" value="{{ cliente.correo }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="telefono">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ cliente.telefono }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="direccion">Dirección</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" value="{{ cliente.direccion }}">
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ url_for('cliente_dashboard') }}" class="btn btn-secondary">← Volver</a>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Iniciar sesión - Automotriz Rosales</title>
+
+<style>
+    :root {
+        --negro: #000000;
+        --gris-oscuro: #1a1a1a;
+        --gris-claro: #d9d9d9;
+        --blanco: #ffffff;
+        --azul-led: #4eaaff;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+
+        min-height: 100vh;
+        height: auto;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        background:
+            linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.85)),
+            url("{{ url_for('static', filename='images/fondoregistro.jpg') }}");
+        background-size: cover;
+        background-position: center right;
+        background-repeat: no-repeat;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    /* BOTÓN VOLVER */
+    .back-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+
+        color: var(--blanco);
+        border: 1px solid rgba(255,255,255,0.3);
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(4px);
+
+        transition: 0.25s;
+        z-index: 200;
+    }
+
+    .back-btn:hover {
+        background: rgba(255,255,255,0.15);
+        transform: translateY(-2px);
+    }
+
+    /* HEADER */
+    .header {
+        position: absolute;
+        top: 40px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 150;
+        pointer-events: none;
+    }
+
+    .header-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--blanco);
+
+        text-shadow:
+            0 0 12px rgba(255,255,255,0.9),
+            0 0 20px rgba(78,170,255,0.7),
+            0 0 35px rgba(78,170,255,0.4);
+    }
+
+    .slogan {
+        margin-top: 6px;
+        color: #eaeaea;
+        font-size: 17px;
+
+        text-shadow:
+            0 0 6px rgba(255,255,255,0.7),
+            0 0 12px rgba(78,170,255,0.5);
+    }
+
+    /* TARJETA */
+    .card {
+        width: 420px;
+        padding: 35px;
+
+        background: rgba(20,20,20,0.45);
+        backdrop-filter: blur(12px);
+
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+
+        animation: fade 0.4s ease;
+
+        margin-top: 160px;
+        z-index: 50;
+    }
+
+    @keyframes fade {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--blanco);
+        margin-bottom: 25px;
+        letter-spacing: 0.5px;
+    }
+
+    /* INPUTS */
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        color: var(--gris-claro);
+        font-weight: 500;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: var(--blanco);
+
+        transition: 0.25s;
+    }
+
+    input:focus {
+        border-color: var(--azul-led);
+        box-shadow: 0 0 10px rgba(78,170,255,0.5);
+        outline: none;
+    }
+
+    /* BOTÓN ENTRAR LED */
+    .btn-main {
+        position: relative;
+        width: 100%;
+        padding: 14px;
+
+        background: #000;
+        border: 2px solid #4eaaff;
+        border-radius: 10px;
+
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 600;
+        cursor: pointer;
+
+        overflow: hidden;
+        transition: 0.3s ease;
+
+        box-shadow: 0 0 12px rgba(78,170,255,0.35);
+    }
+
+    .btn-main:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 25px rgba(78,170,255,0.8);
+        background: #0a0a0a;
+    }
+
+    .btn-main::before {
+        content: "";
+        position: absolute;
+        top: -2px; left: -2px;
+        right: -2px; bottom: -2px;
+
+        border-radius: 12px;
+
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(78,170,255,0.6),
+            transparent
+        );
+
+        opacity: 0;
+        transition: 0.3s ease;
+        z-index: -1;
+
+        filter: blur(5px);
+    }
+
+    .btn-main:hover::before {
+        opacity: 1;
+    }
+
+    .btn-main::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+
+        background: linear-gradient(
+            to right,
+            transparent,
+            rgba(78,170,255,0.4),
+            transparent
+        );
+
+        transition: 0.6s;
+    }
+
+    .btn-main:hover::after {
+        left: 100%;
+    }
+
+    /* ERROR */
+    .error-box {
+        margin-top: 15px;
+        text-align: center;
+        padding: 10px;
+        border-radius: 8px;
+
+        background: rgba(255, 60, 60, 0.15);
+        border: 1px solid rgba(255, 60, 60, 0.4);
+        color: #ff6b6b;
+
+        text-shadow: 0 0 6px rgba(255,0,0,0.4);
+    }
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-title">Automotriz Rosales</div>
+    <div class="slogan">Pasión por la excelencia automotriz</div>
+</div>
+
+<!-- BOTÓN VOLVER -->
+<a href="{{ url_for('index') }}" class="back-btn">← Volver</a>
+
+<!-- TARJETA LOGIN -->
+<div class="card">
+
+    <div class="title">Iniciar sesión</div>
+
+    <form method="POST" action="{{ url_for('login') }}">
+
+        <div class="form-group">
+            <label for="usuario">Nombre</label>
+            <input type="text" name="usuario" id="usuario" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+
+        <button type="submit" class="btn-main">Entrar</button>
+
+        {% if error %}
+        <div class="error-box">{{ error }}</div>
+        {% endif %}
+    </form>
+</div>
+
+</body>
+</html>

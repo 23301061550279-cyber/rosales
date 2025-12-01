@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Cliente - Automotriz Rosales</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+:root {
+    --azul-primario: #1B2841;
+    --azul-claro: #A9C2DA;
+    --gris-fondo: #E6EBEF;
+    --gris-texto: #43484D;
+    --blanco: #ffffff;
+    --azul-hover: #142f54;
+}
+
+/* BODY */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--gris-fondo);
+    margin: 0;
+    padding: 0;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: var(--azul-primario);
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    padding: 25px 20px;
+    box-shadow: 3px 0 12px rgba(0,0,0,0.15);
+}
+
+.sidebar h2 {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+.sidebar a:hover {
+    background: var(--azul-hover);
+    padding-left: 22px;
+}
+
+/* CONTENIDO */
+.content {
+    margin-left: 250px;
+    padding: 30px;
+}
+
+/* HEADER */
+.main-header {
+    background: var(--blanco);
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header h3 {
+    margin: 0;
+    color: var(--azul-primario);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.profile-box {
+    text-align: right;
+    color: var(--gris-texto);
+}
+
+/* TARJETAS RESUMEN */
+.summary-card {
+    background: var(--blanco);
+    padding: 30px 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.summary-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+}
+
+.summary-card i {
+    font-size: 3rem;
+    color: var(--azul-primario);
+    margin-bottom: 15px;
+}
+
+.summary-card h5 {
+    font-weight: 700;
+    color: var(--azul-primario);
+}
+
+/* SECCIONES */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--azul-primario);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 6px solid var(--azul-primario);
+}
+
+/* LISTAS ESTILO TARJETA */
+.list-group-item {
+    background: var(--blanco) !important;
+    border-radius: 20px !important;
+    margin-bottom: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.list-group-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.12);
+}
+
+/* BOTONES */
+.btn-primary {
+    background: var(--azul-primario);
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--azul-hover);
+}
+
+/* BOTONES EXISTENTES (Pagar / Cancelar) */
+.btn-success {
+    background: var(--azul-claro);
+    border: none;
+    color: var(--blanco);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-success:hover {
+    background: var(--azul-primario);
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.btn-danger {
+    background: var(--azul-hover);
+    border: none;
+    color: var(--blanco);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-danger:hover {
+    background: #0f2140;
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* BOTÓN EDITAR ANIMADO CON RIPPLE */
+.animate-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.animate-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    background: var(--azul-hover);
+}
+
+.animate-btn:after {
+    content: "";
+    position: absolute;
+    background: rgba(255,255,255,0.3);
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    opacity: 0;
+    transition: transform 0.5s, opacity 1s;
+}
+
+.animate-btn:active:after {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 1;
+    transition: 0s;
+}
+
+/* VEHÍCULOS */
+.vehicle-card {
+    background: var(--blanco);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.vehicle-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+}
+
+.vehicle-card-body {
+    padding: 15px 20px;
+}
+
+.vehicle-card-body h5 {
+    font-weight: 700;
+    color: var(--azul-primario);
+}
+
+.vehicle-card-body p {
+    color: var(--gris-texto);
+    font-size: 0.95rem;
+}
+
+/* MODAL ANIMADO */
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.4s ease, background 0.4s ease;
+}
+
+.modal-bg.show {
+    display: flex;
+    opacity: 1;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-card {
+    background: var(--blanco);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.modal-bg.show .modal-card {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--gris-texto);
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>⚙ Perfil</h2>
+    <a href="#"><i class="bi bi-house-door-fill"></i> Inicio</a>
+    <a href="#datos"><i class="bi bi-person-fill"></i> Mis Datos</a>
+    <a href="#citas"><i class="bi bi-calendar-event-fill"></i> Mis Citas</a>
+    <a href="#pagos"><i class="bi bi-credit-card-2-front-fill"></i> Pagos</a>
+    <a href="{{ url_for('index') }}"><i class="bi bi-box-arrow-left"></i> Salir</a>
+</div>
+
+<!-- CONTENIDO -->
+<div class="content">
+
+    <!-- HEADER -->
+    <div class="main-header">
+        <h3>Bienvenido, {{ cliente.usuario }}</h3>
+        <div class="profile-box">
+            <strong>{{ cliente.correo }}</strong><br>
+            Último acceso: hoy
+        </div>
+    </div>
+
+    <!-- DATOS PERSONALES -->
+    <div class="section-title" id="datos">Mis Datos</div>
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Usuario:</strong> {{ cliente.usuario }}</li>
+                <li class="list-group-item"><strong>Correo:</strong> {{ cliente.correo }}</li>
+                <li class="list-group-item"><strong>Dirección:</strong> {{ cliente.direccion }}</li>
+                <li class="list-group-item"><strong>Teléfono:</strong> {{ cliente.telefono }}</li>
+            </ul>
+            <button id="editar-btn" class="btn btn-primary mt-3 animate-btn">Editar mis datos</button>
+        </div>
+    </div>
+
+    <!-- CITAS -->
+    <div class="section-title" id="citas">Mis Citas</div>
+    <div class="row g-3">
+        {% for c in citas %}
+        <div class="col-md-4">
+            <div class="vehicle-card">
+                <div class="vehicle-card-body">
+                    <h5>{{ c.tipo_solicitud }}</h5>
+                    <p>Fecha: {{ c.dia }}</p>
+                    <p>Horario: {{ c.horario }}</p>
+                    <p>Estado: <strong>{{ c.estado }}</strong></p>
+                    {% if c.estado in ["pendiente","aceptada"] %}
+                    <a href="/citas/cancelar/{{ c.id }}" class="btn btn-danger btn-sm mt-2 w-100">Cancelar cita</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- PAGOS -->
+    <div class="section-title" id="pagos">Pagos / Mensualidades</div>
+    <div class="row g-3">
+        {% for f in pagos %}
+        <div class="col-md-4">
+            <div class="vehicle-card">
+                <div class="vehicle-card-body">
+                    <h5>{{ f.marca }} {{ f.modelo }}</h5>
+                    <p>Mensualidad: ${{ f.mensualidad }}</p>
+                    <p>Pagados: {{ f.pagados }} / {{ f.meses }} meses</p>
+                    {% if f.pagados < f.meses %}
+                        <form action="/pagar_mensualidad/{{ f.id }}" method="POST">
+                            <button class="btn btn-success btn-sm w-100">Pagar mensualidad</button>
+                        </form>
+                    {% else %}
+                        <span class="text-muted">✔ Pagado completamente</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- MODAL EDITAR -->
+<div id="modal" class="modal-bg">
+    <div class="modal-card">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <h4>Actualizar mis datos</h4>
+        <form action="{{ url_for('editar_perfil') }}" method="POST">
+            <div class="mb-3">
+                <label for="usuario">Nombre de usuario</label>
+                <input type="text" class="form-control" id="usuario" name="usuario" value="{{ cliente.usuario }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" class="form-control" id="correo" name="correo" value="{{ cliente.correo }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="telefono">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ cliente.telefono }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="direccion">Dirección</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" value="{{ cliente.direccion }}">
+            </div>
+
+            <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const modal = document.getElementById('modal');
+const modalClose = document.getElementById('modal-close');
+const editarBtn = document.getElementById('editar-btn');
+
+editarBtn.addEventListener('click', () => {
+    modal.classList.add('show');
+});
+
+modalClose.addEventListener('click', () => {
+    modal.classList.remove('show');
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target == modal) {
+        modal.classList.remove('show');
+    }
+});
+</script>
+
+</body>
+</html>

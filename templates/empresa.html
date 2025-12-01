@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contacto - Herbolia Naz Medi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+  <style>
+    body {
+      background-color: #f7f9fc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    /* Botón de regreso al index */
+    .btn-home {
+      display: inline-block;
+      margin: 1rem auto;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, #2dce89, #0d6efd);
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .btn-home:hover {
+      opacity: 0.85;
+    }
+
+    .header-section {
+      background: linear-gradient(135deg, #2dce89, #0d6efd);
+      color: white;
+      padding: 3rem 0;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin-bottom: 2rem;
+    }
+    .header-section h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+    .header-section p {
+      font-size: 1.25rem;
+      font-style: italic;
+    }
+
+    .info-section {
+      max-width: 900px;
+      margin: 0 auto 3rem auto;
+      background: white;
+      border-radius: 10px;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .info-section h2 {
+      margin-bottom: 1.5rem;
+      border-bottom: 3px solid #2e7d32;
+      padding-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .info-section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .info-section strong {
+      color: #2e7d32;
+    }
+
+    .map-container {
+      text-align: center;
+      margin-bottom: 3rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.9rem;
+      background: linear-gradient(135deg, #2dce89, #0d6efd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 3rem;
+      font-weight: 600;
+    }
+
+    a {
+      color: #2e7d32;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón de regreso al index -->
+  <div style="text-align:center; margin-top: 20px;">
+    <a href="{{ url_for('index') }}" class="btn-home">Regresar al Inicio</a>
+  </div>
+
+  <header class="header-section">
+    <h1>Herbolia Naz Medi S.A. de C.V.</h1>
+    <p>Comprometidos con la naturaleza Ambiental</p>
+  </header>
+
+  <section class="info-section">
+    <h2>Información de Contacto</h2>
+    <p><strong>Dirección:</strong> Avenida Perseos 301, Primo Verdad Inegi, Aguascalientes, CP 20267</p>
+    <p><strong>Teléfono:</strong> +52 449 502 80 52</p>
+    <p><strong>Email:</strong> <a href="mailto:contacto@medi.com">contacto@medi.com</a></p>
+    <p><strong>Horario de atención:</strong> Lunes a Viernes de 9:00 a 18:00 hrs</p>
+    <p><strong>Redes Sociales:</strong> 
+      <a href="https://www.instagram.com/herboli_naz" target="_blank">Instagram</a> | 
+      <a href="https://wa.me/524495028052" target="_blank">WhatsApp</a>
+    </p>
+    <p>En Herbolia Naz Medi nos especializamos en productos para ayudar al medioambiente. Nuestro equipo está disponible para asesorarte y ayudarte a elegir las mejores opciones para ti.</p>
+  </section>
+
+  <section class="map-container">
+    <h2>Ubicación</h2>
+    <iframe
+      src="https://www.google.com/maps?q=Avenida+Perseos+301,+Primo+Verdad+Inegi,+Aguascalientes,+CP+20267&output=embed"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </section>
+
+  <section class="info-section" style="background:#e8f5e9;">
+    <h2>¿Por qué elegir Herbolia Naz ?</h2>
+    <ul style="font-size:1.1rem; line-height:1.8; list-style-type: disc; padding-left: 20px;">
+      <li>Productos 100% naturales y certificados.</li>
+      <li>Asesoría personalizada con arboricultores.</li>
+      <li>Compromiso con el medio ambiente y sostenibilidad.</li>
+      <li>Entrega rápida y segura a todo México.</li>
+      <li>Política de satisfacción garantizada.</li>
+    </ul>
+  </section>
+
+  <footer class="footer-note">
+    &copy; 2025 Herbolia Naz Medi S.A. de C.V. Todos los derechos reservados.
+  </footer>
+</body>
+</html>

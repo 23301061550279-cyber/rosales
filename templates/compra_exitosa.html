@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compra Exitosa - Automotriz Rosales</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body {
+    background: #E6EBEF;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+    color: #1B2841;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    transition: all 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+h1 {
+    text-align: center;
+    color: #28a745;
+    margin-bottom: 25px;
+}
+
+p, ul {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+.button {
+    display: inline-block;
+    text-decoration: none;
+    background: #1B2841;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin: 10px 5px 0 0;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background: #142f54;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(27, 40, 65, 0.3);
+}
+
+/* Resumen de compra estilo minimalista */
+.summary-card {
+    background: #fff;
+    color: #1B2841;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border-left: 5px solid #28a745;
+}
+
+.summary-card p, .summary-card li {
+    margin: 5px 0;
+}
+
+.summary-card ul {
+    padding-left: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>¡Compra Exitosa!</h1>
+
+    <div class="summary-card">
+        <p><strong>Pedido ID:</strong> {{ pedido_id }}</p>
+        <p><strong>Meses:</strong> {{ meses }}</p>
+        <p><strong>Enganche:</strong> ${{ "{:,.2f}".format(enganche) }}</p>
+        <p><strong>Mensualidad:</strong> ${{ "{:,.2f}".format(mensualidad) }}</p>
+
+        <p><strong>Autos Comprados:</strong></p>
+        <ul>
+            {% for auto in autos %}
+                <li>{{ auto.marca }} {{ auto.modelo }} - ${{ "{:,.2f}".format(auto.precio) }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="{{ url_for('static', filename='pedidos/' ~ pdf) }}" class="button" target="_blank"><i class="fas fa-file-pdf"></i> Descargar PDF</a>
+    <a href="{{ url_for('index') }}" class="button"><i class="fas fa-home"></i> Volver al Inicio</a>
+</div>
+
+</body>
+</html>

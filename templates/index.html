@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automotriz Rosales - Inicio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+      scroll-behavior: smooth; /* Scroll suave */
+    }
+
+    .navbar {
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-link {
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: #1b4ea0 !important;
+      font-weight: bold;
+    }
+
+    .hero-section {
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      background-image: url("{{ url_for('static', filename='images/slide-01.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1;
+    }
+
+    .hero-section > div {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-section h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 15px rgba(0,0,0,0.4);
+    }
+
+    .hero-section p {
+      font-size: 1.5rem;
+      max-width: 650px;
+      margin: 0 auto 30px;
+      text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn-custom {
+      background: #0a2342;
+      color: #ffffff;
+      font-weight: 700;
+      padding: 15px 40px;
+      border-radius: 12px;
+      border: 2px solid #1b4ea0;
+      transition: 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .btn-custom:hover {
+      background: #142f54;
+      border-color: #2d78ff;
+      box-shadow: 0 10px 25px rgba(0, 89, 255, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .cards-section {
+      padding: 70px 20px;
+    }
+
+    .card-custom {
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: transform 0.4s, box-shadow 0.4s;
+      background: #fff;
+      padding: 30px 20px;
+    }
+
+    .card-custom:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .card-custom img.img-grande {
+      width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    footer {
+      background-color: #343a40;
+      color: #fff;
+      padding: 30px 0;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .parallax {
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      
+    }
+
+    .hover-img {
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+section h6 {
+  color: #1b4ea0;
+}
+
+section h2 {
+  color: #222;
+}
+
+section p {
+  color: #555;
+}
+
+
+
+
+  </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="70" tabindex="0">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #000;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#inicio">
+        <div style="display: flex; align-items: center;">
+          <img src="{{ url_for('static', filename='images/automotriz.png') }}" alt="Logo" style="height: 100px; width: auto; border-radius: 50px; margin-right: 50px;">
+          <span style="color: white; font-weight: bold; font-size: 1.25rem; font-family: 'Russo One', sans-serif;">Automotriz Rosales</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center">
+          {% if 'usuario' in session %}
+            <li class="nav-item me-3 text-white">
+              <span class="nav-link disabled">Hola, {{ session['usuario'] }}</span>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('cliente_dashboard') }}">Cuenta</a></li>
+            {% if session['rol'] == 'admin' %}
+            {% endif %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Registrar</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Iniciar sesión</a></li>
+          {% endif %}
+
+          <!-- Secciones internas -->
+          <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sucursales">Sucursales</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section / Inicio -->
+  <section id="inicio" class="hero-section parallax">
+    <div>
+      <h1>Automotriz Rosales</h1>
+      <p style="color:#fff;">La mejor experiencia al adquirir un carro solo con nosotros.</p>
+      <!-- Solo botón Ver Catálogo -->
+      <a href="{{ url_for('autos') }}" class="btn btn-custom me-2">Ver Catálogo</a>
+    </div>
+  </section>
+
+  <!-- ===========================
+   Sección Nosotros
+=========================== -->
+<section id="nosotros" style="background: #E6EBEF; padding: 80px 0;">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 60px; background:#fff; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.05);">
+    
+    <div class="text-center mb-5">
+      <h6 style="color:#1B2841; font-weight:700; letter-spacing:2px; text-transform:uppercase;">Nosotros</h6>
+      <h2 style="color:#1B2841; font-weight:700; margin-top:10px;">Conducimos tu mejor experiencia</h2>
+    </div>
+
+    <p style="color:#43484D; font-size:1.1rem; text-align:center; line-height:1.7; max-width:900px; margin:0 auto 50px auto;">
+      En <strong>Automotriz Rosales</strong> transformamos la forma de comprar autos en Aguascalientes. Nuestro sitio web permite explorar todos los vehículos disponibles, conocer sus características, cotizar precios y realizar pagos de manera fácil y segura desde casa.<br><br>
+      Buscamos ofrecer una experiencia moderna y cómoda, combinando tecnología y atención confiable para que cada cliente encuentre el auto ideal sin complicaciones.
+    </p>
+
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="block-img rounded-4 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/about-thumb-01.jpg') }}" class="img-fluid rounded-4" alt="Auto 1">
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="block-img rounded-4 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/about-thumb-02.jpg') }}" class="img-fluid rounded-4" alt="Auto 2">
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="block-img rounded-4 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/about-thumb-03.jpg') }}" class="img-fluid rounded-4" alt="Auto 3">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+   Sección Sucursales
+=========================== -->
+<section id="sucursales" style="background:#E6EBEF; padding:80px 0;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="text-center mb-5">
+      <h6 style="color:#1B2841; font-weight:700; letter-spacing:2px; text-transform:uppercase;">Nuestras Sucursales</h6>
+      <h2 style="color:#1B2841; font-weight:700;">Encuentra la más cercana</h2>
+    </div>
+
+    <div class="row g-4">
+      <!-- Sucursal 1 -->
+      <div class="col-lg-6">
+        <div class="info-block">
+          <div class="icon-circle">
+            <i class="fa fa-map-marker-alt fa-2x"></i>
+          </div>
+          <h4>Aguascalientes Centro</h4>
+          <p>Av. José María Chávez 703, Aguascalientes, Ags.<br>Tel: 449-264-1496</p>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!4v1761529541233!6m8!1m7!1sd-6zhczxp3pgfcsUg1ouGA!2m2!1d21.87243511928007!2d-102.2950524895166!3f270.8758!4f0!5f0.7820865974627469" 
+            width="100%" height="300" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Sucursal 2 -->
+      <div class="col-lg-6">
+        <div class="info-block">
+          <div class="icon-circle">
+            <i class="fa fa-map-marker-alt fa-2x"></i>
+          </div>
+          <h4>Versalles</h4>
+          <p>Av. Aguascalientes Sur 243, Aguascalientes, Ags.<br>Tel: 449-987-6543</p>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!3m2!1ses-419!2smx!4v1761529175994!5m2!1ses-419!2smx!6m8!1m7!1sl-VCOD6SM9YpU7RyVOP2Gg!2m2!1d21.85901488660694!2d-102.3110063652987!3f11.972216335460068!4f-1.6499925490209364!5f0.7820865974627469"
+            width="100%" height="300" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+   Sección Contacto
+=========================== -->
+<section id="contacto" style="background:#E6EBEF; padding:80px 0;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="text-center mb-5">
+      <h6 style="color:#1B2841; font-weight:700; letter-spacing:2px; text-transform:uppercase;">Contacto</h6>
+      <h2 style="color:#1B2841; font-weight:700;">Contáctanos o agenda una cita</h2>
+    </div>
+
+    <div class="row g-4 mb-5 text-center">
+      <!-- Teléfonos -->
+      <div class="col-lg-6">
+        <div class="info-block">
+          <div class="icon-circle">
+            <i class="fa fa-phone fa-2x"></i>
+          </div>
+          <h4>Teléfonos</h4>
+          <p>
+            <a href="tel:4492641496">449-264-1496</a><br>
+            <a href="tel:4498528296">449-852-8296</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Emails -->
+      <div class="col-lg-6">
+        <div class="info-block">
+          <div class="icon-circle">
+            <i class="fa fa-envelope fa-2x"></i>
+          </div>
+          <h4>Emails</h4>
+          <p>
+            <a href="mailto:automotrizrosales@company.com">automotrizrosales@company.com</a><br>
+            <a href="mailto:agsmex@company.com">agsmex@company.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  <div class="contact-form" style="background:#fff; padding:40px; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.05);">
+  <h4 class="fw-bold mb-3" style="color:#1B2841;">Reservaciones</h4>
+  <p style="color:#43484D; line-height:1.6;">¿Deseas una atención personalizada? Completa este formulario y, en menos de <strong>24 horas</strong>, recibirás un aviso para confirmar tu cita.</p>
+
+  <form id="contact" action="{{ url_for('reservar') }}" method="post" novalidate>
+    <div class="row g-3">
+      <div class="col-lg-6 col-sm-12">
+        <input name="name" type="text" class="form-control rounded-3" placeholder="Tu nombre*" required>
+        <div class="error text-danger small mt-1"></div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <input name="email" type="email" class="form-control rounded-3" placeholder="Tu correo*" required>
+        <div class="error text-danger small mt-1"></div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <input name="phone" type="text" class="form-control rounded-3" placeholder="Teléfono*" required>
+        <div class="error text-danger small mt-1"></div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <select name="tipo-solicitud" class="form-control rounded-3" required>
+          <option value="">Elige Tu Servicio</option>
+          <option value="cotizacion">Cotización</option>
+          <option value="prueba-manejo">Prueba de manejo</option>
+          <option value="asesoria">Asesoría Venta</option>
+          <option value="financiamiento">Financiamiento</option>
+          <option value="servicio">Servicio / mantenimiento</option>
+        </select>
+        <div class="error text-danger small mt-1"></div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <input name="day" type="date" class="form-control rounded-3" required>
+        <div class="error text-danger small mt-1"></div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <select name="time" class="form-control rounded-3" required>
+          <option value="">Selecciona un horario</option>
+          <option value="08:00:00-12:00:00">Mañana (8:00 AM - 12:00 PM)</option>
+          <option value="12:00:00-17:00:00">Tarde (12:00 PM - 5:00 PM)</option>
+          <option value="17:00:00-20:00:00">Noche (5:00 PM - 8:00 PM)</option>
+        </select>
+        <div class="error text-danger small mt-1"></div>
+      </div>
+      <div class="col-12">
+        <textarea name="message" rows="5" class="form-control rounded-3" placeholder="Indica con más detalle lo que deseas." required></textarea>
+        <div class="error text-danger small mt-1"></div>
+      </div>
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">Enviar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+document.getElementById('contact').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evita envío hasta validar
+    let form = this;
+    let valid = true;
+
+    // Limpia errores previos
+    form.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+    // Nombre
+    let name = form.name.value.trim();
+    let nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/;
+    if (!nameRegex.test(name)) {
+        form.name.nextElementSibling.textContent = "El nombre debe tener al menos 3 letras y solo contener letras y espacios.";
+        valid = false;
+    }
+
+    // Correo
+    let email = form.email.value.trim();
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        form.email.nextElementSibling.textContent = "Ingresa un correo válido.";
+        valid = false;
+    }
+
+    // Teléfono
+    let phone = form.phone.value.trim();
+    let phoneRegex = /^[0-9]{7,15}$/;
+    if (!phoneRegex.test(phone)) {
+        form.phone.nextElementSibling.textContent = "Ingresa un teléfono válido (7-15 números).";
+        valid = false;
+    }
+
+    // Servicio
+    if (!form['tipo-solicitud'].value) {
+        form['tipo-solicitud'].nextElementSibling.textContent = "Selecciona un servicio.";
+        valid = false;
+    }
+
+    // Fecha
+    if (!form.day.value) {
+        form.day.nextElementSibling.textContent = "Selecciona un día para tu cita.";
+        valid = false;
+    } else {
+        let today = new Date(); today.setHours(0,0,0,0);
+        let selected = new Date(form.day.value);
+        if (selected < today) {
+            form.day.nextElementSibling.textContent = "La fecha no puede ser anterior a hoy.";
+            valid = false;
+        }
+    }
+
+    // Hora
+    if (!form.time.value) {
+        form.time.nextElementSibling.textContent = "Selecciona un horario.";
+        valid = false;
+    }
+
+    // Mensaje
+    let message = form.message.value.trim();
+    if (message.length < 10) {
+        form.message.nextElementSibling.textContent = "El mensaje debe tener al menos 10 caracteres.";
+        valid = false;
+    }
+
+    // Enviar si todo es válido
+    if (valid) form.submit();
+});
+</script>
+
+
+<style>
+/* Bloques uniformes para secciones */
+.info-block, .block-img, .contact-form {
+  background:#fff;
+  padding:40px;
+  border-radius:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.info-block h4, .contact-form h4 {
+  color:#1B2841;
+  font-weight:700;
+  margin-top:15px;
+  text-align:center;
+}
+
+.info-block p, .contact-block p, .contact-form p {
+  color:#43484D;
+  line-height:1.6;
+  text-align:center;
+}
+
+.info-block a {
+  text-decoration:none;
+  color:#43484D;
+  font-weight:500;
+}
+
+.icon-circle {
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:#A9C2DA;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 15px auto;
+  transition: all 0.3s;
+}
+
+.icon-circle i {
+  color:#fff;
+}
+
+.info-block:hover, .contact-form:hover {
+  transform: translateY(-8px);
+  box-shadow:0 20px 45px rgba(0,0,0,0.15);
+}
+
+.icon-circle:hover {
+  background:#1B2841;
+  transform: scale(1.1);
+}
+
+.contact-form .btn-primary {
+  background:#1B2841;
+  border:none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.contact-form .btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+</style>
+
+
+
+
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Automotriz Rosales. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+</body>
+</html>

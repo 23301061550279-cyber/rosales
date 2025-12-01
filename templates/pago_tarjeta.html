@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pago - Automotriz Rosales</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* --- Body y títulos --- */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+    background: #E6EBEF;
+    color: #1B2841;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* --- Contenedor principal --- */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* --- Cards --- */
+.card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    flex: 1 1 400px;
+    max-width: 500px;
+    min-width: 320px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    color: #1B2841;
+}
+
+/* --- Inputs modernos --- */
+label {
+    display: block;
+    font-weight: 500;
+    color: #1B2841;
+    margin-bottom: 5px;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background: #f6f8fa;
+    transition: all 0.3s ease;
+}
+
+input[type=text]:focus {
+    outline: none;
+    border-color: #1B2841;
+    box-shadow: 0 0 8px rgba(27, 40, 65, 0.3);
+    background: #fff;
+}
+
+/* --- Botón premium --- */
+.button {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, #1B2841, #4B6584);
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background: linear-gradient(135deg, #142f54, #3b4f6b);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(27, 40, 65, 0.3);
+}
+
+/* --- Tarjeta premium con iluminación dinámica --- */
+.card-visual {
+    width: 100%;
+    max-width: 360px;
+    height: 200px;
+    margin: 0 auto 20px auto;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    padding: 20px;
+    position: relative;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+/* Brillo animado general */
+.card-visual::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    transform: rotate(45deg);
+    pointer-events: none;
+    animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+    0% { transform: rotate(45deg) translate(-200%, -200%); }
+    50% { transform: rotate(45deg) translate(200%, 200%); }
+    100% { transform: rotate(45deg) translate(-200%, -200%); }
+}
+
+/* Glow al interactuar */
+.card-visual.glow {
+    box-shadow: 0 0 20px 6px rgba(27,40,65,0.6);
+    background: linear-gradient(135deg, #1B2841, #3b4f6b, #4B6584);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.card-visual .chip {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+    width: 50px;
+    height: 35px;
+    background: linear-gradient(135deg, #d4d4d4, #aaa);
+    border-radius: 5px;
+}
+
+.card-visual .logo {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: rgba(255,255,255,0.7);
+}
+
+#display-numero {
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    margin-top: 60px;
+}
+
+#display-nombre, #display-vence {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+/* --- Resumen de compra compacto con scroll --- */
+.card-resumen {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.card-resumen p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+}
+
+/* --- Botón regresar --- */
+.btn-back {
+    display: inline-block;
+    background: #1B2841;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 25px;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.btn-back i {
+    margin-right: 8px;
+}
+
+.btn-back:hover {
+    background: #142f54;
+}
+
+/* --- Media queries --- */
+@media (max-width: 768px) {
+    .card {
+        flex: 1 1 90%;
+        max-width: none;
+    }
+    .card-visual {
+        height: 180px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card {
+        flex: 1 1 450px;
+        max-width: 550px;
+    }
+}
+</style>
+</head>
+<body>
+
+<a href="{{ url_for('checkout') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Regresar</a>
+
+<h1>Formulario de Pago</h1>
+
+<div class="container">
+    <!-- Resumen de Compra -->
+    <div class="card card-resumen">
+        <h3>Resumen de Compra</h3>
+        {% for auto in autos %}
+            <p>{{ auto.marca }} {{ auto.modelo }} - ${{ "{:,.2f}".format(auto.precio) }}</p>
+        {% endfor %}
+        <p><strong>Total:</strong> ${{ "{:,.2f}".format(total) }}</p>
+        <p><strong>Enganche (50%):</strong> ${{ "{:,.2f}".format(enganche) }}</p>
+        <p><strong>Meses:</strong> {{ meses }}</p>
+        <p><strong>Mensualidad:</strong> ${{ "{:,.2f}".format(mensualidad) }}</p>
+    </div>
+
+    <!-- Formulario con tarjeta premium -->
+    <div class="card">
+        <div class="card-visual">
+            <div class="chip"></div>
+            <p id="display-numero">#### #### #### ####</p>
+            <div class="card-footer">
+                <p id="display-nombre">Nombre Apellido</p>
+                <p id="display-vence">MM/AA</p>
+            </div>
+            <div class="logo"><i class="fas fa-credit-card"></i></div>
+        </div>
+
+        <form action="{{ url_for('finalizar_pago') }}" method="POST">
+            <input type="hidden" name="meses" value="{{ meses }}">
+            {% for auto in autos %}
+                <input type="hidden" name="autos_ids" value="{{ auto.id }}">
+            {% endfor %}
+
+            <label>Nombre en la Tarjeta:
+                <input type="text" name="nombre_tarjeta" id="nombre_tarjeta" required>
+            </label>
+            <label>Número de Tarjeta:
+                <input type="text" name="numero_tarjeta" id="numero_tarjeta" maxlength="19" placeholder="#### #### #### ####" required>
+            </label>
+            <label>Vencimiento (MM/AA):
+                <input type="text" name="vencimiento" id="vencimiento" maxlength="5" placeholder="MM/AA" required>
+            </label>
+            <label>CVC:
+                <input type="text" name="cvc" id="cvc" maxlength="4" required>
+            </label>
+
+            <button type="submit" class="button">Finalizar Compra</button>
+        </form>
+    </div>
+</div>
+
+<script>
+// Elementos
+const cardVisual = document.querySelector('.card-visual');
+const numeroInput = document.getElementById('numero_tarjeta');
+const nombreInput = document.getElementById('nombre_tarjeta');
+const venceInput = document.getElementById('vencimiento');
+const cvcInput = document.getElementById('cvc');
+
+// Nombre solo letras
+nombreInput.addEventListener('input', () => {
+    nombreInput.value = nombreInput.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    document.getElementById('display-nombre').textContent = nombreInput.value || 'Nombre Apellido';
+});
+
+// Número solo números, formato 4x4
+numeroInput.addEventListener('input', () => {
+    let val = numeroInput.value.replace(/\D/g, '').slice(0,16);
+    let displayVal = val.match(/.{1,4}/g);
+    document.getElementById('display-numero').textContent = displayVal ? displayVal.join(' ') : '#### #### #### ####';
+    numeroInput.value = displayVal ? displayVal.join(' ') : '';
+});
+
+// Vencimiento solo números + /
+venceInput.addEventListener('input', () => {
+    let val = venceInput.value.replace(/\D/g, '').slice(0,4);
+    if (val.length >= 3) val = val.slice(0,2) + '/' + val.slice(2);
+    venceInput.value = val;
+    document.getElementById('display-vence').textContent = val || 'MM/AA';
+});
+
+// CVC solo números
+cvcInput.addEventListener('input', () => {
+    cvcInput.value = cvcInput.value.replace(/\D/g, '').slice(0,4);
+});
+
+// Glow dinámico mientras se escribe o enfoca
+[numeroInput, nombreInput, venceInput, cvcInput].forEach(input => {
+    input.addEventListener('focus', () => cardVisual.classList.add('glow'));
+    input.addEventListener('input', () => cardVisual.classList.add('glow'));
+    input.addEventListener('blur', () => cardVisual.classList.remove('glow'));
+});
+</script>
+
+</body>
+</html>

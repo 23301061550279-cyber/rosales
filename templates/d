@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Administrador</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: "Segoe UI", sans-serif;
+      color: #1c2a3a;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background: #1b2a3a;
+      padding-top: 25px;
+      color: white;
+      border-right: 2px solid #223449;
+    }
+
+    .sidebar h3 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #cbd6e0;
+      padding: 14px 30px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      margin: 3px 10px;
+      transition: all 0.3s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background: #223449;
+      color: #ffffff;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      margin-left: 260px;
+      height: 70px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #e0e6ed;
+    }
+
+    .topbar span {
+      font-size: 0.95rem;
+    }
+
+    /* CONTENIDO */
+    .content {
+      margin-left: 260px;
+      padding: 35px;
+    }
+
+    /* TARJETAS ESTADISTICAS */
+    .stat-card {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      transition: all 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .stat-title {
+      color: #7a8c99;
+      font-size: 13px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1c2a3a;
+    }
+
+    /* TITULOS DE SECCION */
+    .section-title {
+      font-weight: 700;
+      margin: 40px 0 20px;
+      border-left: 6px solid #3b5b8f;
+      padding-left: 12px;
+      color: #3b5b8f;
+      font-size: 1.3rem;
+    }
+
+    /* FORMULARIOS */
+    .form-control-sm, .form-select-sm {
+      font-size: 0.88rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+    }
+
+    .form-control-sm:focus, .form-select-sm:focus {
+      box-shadow: 0 0 5px rgba(59,91,143,0.4);
+      border-color: #3b5b8f;
+    }
+
+    /* BOTONES MODERNOS */
+    .btn-custom {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 8px;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-edit {
+      background-color: #3b5b8f;
+      color: #fff;
+    }
+
+    .btn-edit:hover {
+      background-color: #2e4470;
+    }
+
+    .btn-delete {
+      background-color: #6c7a89;
+      color: #fff;
+    }
+
+    .btn-delete:hover {
+      background-color: #515c69;
+    }
+
+    /* GRID DE AUTOS */
+    .auto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .auto-card {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .auto-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .auto-card img {
+      border-radius: 12px;
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .auto-info {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .auto-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-left: 260px;
+      padding: 25px;
+      color: #7a8c99;
+      text-align: center;
+      margin-top: 40px;
+      border-top: 1px solid #e0e6ed;
+    }
+
+    /* MODALES MEJORADOS */
+    .modal-content {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .modal-header {
+      background: #3b5b8f;
+      color: #fff;
+      border-bottom: none;
+      padding: 20px 25px;
+    }
+
+    .modal-title {
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .modal-body {
+      padding: 25px;
+      background: #f8f9fa;
+    }
+
+    .modal-footer {
+      background: #f1f3f6;
+      border-top: none;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .modal-footer .btn-primary {
+      background-color: #3b5b8f;
+      border: none;
+      transition: background 0.2s;
+    }
+
+    .modal-footer .btn-primary:hover {
+      background-color: #2e4470;
+    }
+
+    .modal-footer .btn-secondary {
+      background-color: #6c7a89;
+      border: none;
+      transition: background 0.2s;
+    }
+
+    .modal-footer .btn-secondary:hover {
+      background-color: #515c69;
+    }
+
+    .modal-body .form-control, 
+    .modal-body .form-select {
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+      padding: 6px 10px;
+    }
+
+    .modal-body .form-control:focus, 
+    .modal-body .form-select:focus {
+      border-color: #3b5b8f;
+      box-shadow: 0 0 6px rgba(59,91,143,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .modal-dialog {
+        max-width: 95%;
+        margin: 1rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h3>🚗 Admin</h3>
+    <a href="#clientes" class="active">👥 Clientes</a>
+    <a href="#autos">🚘 Autos</a>
+    <a href="{{ url_for('logout') }}">❌ Cerrar sesión</a>
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <h5 class="m-0">Panel de Administración</h5>
+    <div>
+      <span class="me-3">Bienvenido, <b>{{ usuario }}</b></span>
+      <a href="{{ url_for('logout') }}" class="btn btn-outline-dark btn-sm">Cerrar sesión</a>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="content">
+
+    <!-- TARJETAS ESTADISTICAS -->
+    <div class="row g-4">
+      <div class="col-md-3"><div class="stat-card"><div class="stat-title">Autos en catálogo</div><div class="stat-value">{{ autos|length }}</div></div></div>
+      <div class="col-md-3"><div class="stat-card"><div class="stat-title">Clientes registrados</div><div class="stat-value">{{ clientes|length }}</div></div></div>
+      <div class="col-md-3"><div class="stat-card"><div class="stat-title">Autos vendidos</div><div class="stat-value">12</div></div></div>
+      <div class="col-md-3"><div class="stat-card"><div class="stat-title">Citas activas</div><div class="stat-value">4</div></div></div>
+    </div>
+
+    <!-- CLIENTES -->
+    <h3 class="section-title" id="clientes">Gestión de Clientes</h3>
+    <div class="card p-4 shadow-sm">
+      <form id="clienteForm">
+        <div class="row g-3">
+          <div class="col-md-2"><label class="form-label">ID</label><input type="text" id="idCliente" class="form-control form-control-sm"></div>
+          <div class="col-md-4"><label class="form-label">Nombre</label><input type="text" id="nombre" class="form-control form-control-sm"></div>
+          <div class="col-md-3"><label class="form-label">Dirección</label><input type="text" id="direccion" class="form-control form-control-sm"></div>
+          <div class="col-md-3"><label class="form-label">Teléfono</label><input type="text" id="telefono" class="form-control form-control-sm"></div>
+        </div>
+        <div class="text-center mt-4">
+          <button type="button" class="btn btn-info btn-sm">🔍 Buscar</button>
+          <button type="button" class="btn btn-secondary btn-sm">✏️ Modificar</button>
+          <button type="button" class="btn btn-dark btn-sm">🗑️ Eliminar</button>
+          <button type="button" class="btn btn-success btn-sm">💾 Guardar</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- AUTOS -->
+    <h3 class="section-title" id="autos">Gestión de Autos</h3>
+
+    <div class="auto-grid">
+      {% for a in autos %}
+      <div class="auto-card">
+        <img src="{{ url_for('static', filename='images/' ~ a.imagen) }}" alt="{{ a.marca }} {{ a.modelo }}">
+        <div class="auto-info"><b>{{ a.marca }} {{ a.modelo }}</b></div>
+        <div class="auto-info">Año: {{ a.año }} | Precio: ${{ a.precio }}</div>
+        <div class="auto-info">Kilometraje: {{ a.kilometraje }} km</div>
+        <div class="auto-actions">
+          <button class="btn btn-custom btn-edit btn-sm" data-bs-toggle="modal" data-bs-target="#modalAuto{{ a.id }}">Editar</button>
+          <form method="POST" action="{{ url_for('eliminar_auto') }}" onsubmit="return confirm('¿Eliminar auto?');" style="display:inline;">
+            <input type="hidden" name="id" value="{{ a.id }}">
+            <button type="submit" class="btn btn-custom btn-delete btn-sm">Eliminar</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- MODAL -->
+    <div class="modal fade" id="modalAuto{{ a.id }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- <- más ancho -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Auto #{{ a.id }}</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <form method="POST" action="{{ url_for('administrar_autos') }}">
+            <div class="modal-body">
+              <input type="hidden" name="id" value="{{ a.id }}">
+              <div class="row g-3">
+                <div class="col-md-3"><input class="form-control form-control-sm" name="marca" value="{{ a.marca }}" placeholder="Marca"></div>
+                <div class="col-md-3"><input class="form-control form-control-sm" name="modelo" value="{{ a.modelo }}" placeholder="Modelo"></div>
+                <div class="col-md-2"><input class="form-control form-control-sm" name="anio" type="number" value="{{ a.año }}" placeholder="Año"></div>
+                <div class="col-md-2"><input class="form-control form-control-sm" name="precio" type="number" value="{{ a.precio }}" placeholder="Precio"></div>
+                <div class="col-md-2"><input class="form-control form-control-sm" name="kilometraje" type="number" value="{{ a.kilometraje }}" placeholder="Km"></div>
+
+                <div class="col-md-3"><input class="form-control form-control-sm" name="motor" value="{{ a.motor }}" placeholder="Motor"></div>
+                <div class="col-md-3"><input class="form-control form-control-sm" name="traccion" value="{{ a.traccion }}" placeholder="Tracción"></div>
+                <div class="col-md-3"><input class="form-control form-control-sm" name="color" value="{{ a.color }}" placeholder="Color"></div>
+                <div class="col-md-3">
+                  <select class="form-select form-select-sm" name="categoria">
+                    <option value="nuevo" {% if a.categoria=='nuevo' %}selected{% endif %}>Nuevo</option>
+                    <option value="seminuevo" {% if a.categoria=='seminuevo' %}selected{% endif %}>Seminuevo</option>
+                    <option value="suv" {% if a.categoria=='suv' %}selected{% endif %}>SUV</option>
+                    <option value="camioneta" {% if a.categoria=='camioneta' %}selected{% endif %}>Camioneta</option>
+                    <option value="hibrido" {% if a.categoria=='hibrido' %}selected{% endif %}>Híbrido</option>
+                    <option value="electrico" {% if a.categoria=='electrico' %}selected{% endif %}>Eléctrico</option>
+                    <option value="deportivo" {% if a.categoria=='deportivo' %}selected{% endif %}>Deportivo</option>
+                  </select>
+                </div>
+
+                <div class="col-md-12"><input class="form-control form-control-sm" name="imagen" value="{{ a.imagen }}" placeholder="Imagen (nombre archivo)"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary btn-sm">💾 Guardar Cambios</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+          {% endfor %}
+        </div>
+
+        <h3 class="section-title mt-5" id="citas">Gestión de Citas</h3>
+
+<div class="auto-grid">
+  {% for cita in citas %}
+  <div class="auto-card">
+    <div class="auto-info"><b>{{ cita.nombre }}</b> ({{ cita.tipo_solicitud }})</div>
+    <div class="auto-info">📧 {{ cita.email }}</div>
+    <div class="auto-info">📞 {{ cita.telefono }}</div>
+    <div class="auto-info">📅 {{ cita.dia }} | ⏰ {{ cita.horario }} {% if cita.hora_final %}- {{ cita.hora_final }}{% endif %}</div>
+    <div class="auto-info">
+      Estado:
+      {% if cita.estado == 'pendiente' %}
+        <span class="badge bg-warning text-dark">{{ cita.estado }}</span>
+      {% elif cita.estado == 'aceptada' %}
+        <span class="badge bg-success">{{ cita.estado }}</span>
+      {% elif cita.estado == 'rechazada' %}
+        <span class="badge bg-danger">{{ cita.estado }}</span>
+      {% elif cita.estado == 'cancelada' %}
+        <span class="badge bg-secondary">{{ cita.estado }}</span>
+      {% endif %}
+    </div>
+
+    {% if cita.estado == 'pendiente' %}
+    <div class="auto-actions mt-2">
+      <form method="POST" action="{{ url_for('aceptar_cita', cita_id=cita.id) }}" class="d-flex gap-1">
+        <input type="time" name="hora_final" class="form-control form-control-sm" required>
+        <button type="submit" class="btn btn-custom btn-edit btn-sm">Aceptar</button>
+      </form>
+      <form method="GET" action="{{ url_for('rechazar_cita', cita_id=cita.id) }}">
+        <button type="submit" class="btn btn-custom btn-delete btn-sm mt-1 w-100">Rechazar</button>
+      </form>
+    </div>
+    {% else %}
+      <div class="text-muted mt-2">Sin acciones disponibles</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
+
+    </div>
+
+  <footer>
+    © 2025 Panel Administrador – Autos
+  </footer>
+
+</body>
+</html>

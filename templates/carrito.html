@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito de Autos</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --azul-primario: #1B2841;
+    --azul-claro: #A9C2DA;
+    --gris-fondo: #E6EBEF;
+    --gris-texto: #43484D;
+    --blanco: #ffffff;
+    --azul-hover: #142f54;
+}
+
+/* BODY */
+body { 
+    background: var(--gris-fondo);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    color: var(--azul-primario);
+}
+
+/* TÍTULO */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* BOTÓN REGRESAR */
+.btn-back {
+    display: inline-block;
+    background: var(--azul-primario);
+    color: var(--blanco);
+    padding: 10px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 20px;
+    transition: transform 0.2s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-back i {
+    margin-right: 8px;
+}
+
+.btn-back:hover {
+    background: var(--azul-hover);
+    transform: translateX(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* TARJETA DEL AUTO */
+.card {
+    background: var(--blanco);
+    padding: 20px;
+    margin: 15px auto;
+    width: 80%;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlide 0.6s forwards;
+}
+
+.card img { 
+    width: 180px; 
+    border-radius: 15px; 
+    object-fit: cover;
+}
+
+.info { 
+    flex: 1; 
+}
+
+.info h2 {
+    color: var(--azul-primario);
+    margin-bottom: 8px;
+}
+
+.info p {
+    color: var(--gris-texto);
+    margin: 4px 0;
+}
+
+/* BOTÓN ELIMINAR CON RIPPLE */
+.btn-delete {
+    position: relative;
+    overflow: hidden;
+    background: var(--azul-hover);
+    color: var(--blanco);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-delete:hover {
+    background: #0f2140;
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.btn-delete:after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s, opacity 1s;
+}
+
+.btn-delete:active:after {
+    transform: scale(3);
+    opacity: 1;
+    transition: 0s;
+}
+
+/* BOTÓN CHECKOUT */
+.btn-checkout {
+    background: var(--azul-claro);
+    color: var(--blanco);
+    padding: 15px 30px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    width: 250px;
+    margin: 30px auto 0;
+    text-align: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-checkout:hover {
+    background: var(--azul-primario);
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* MENSAJE CARRITO VACÍO */
+.empty-cart {
+    text-align: center;
+    margin-top: 50px;
+    color: var(--gris-texto);
+    font-size: 1.5rem;
+}
+
+/* ANIMACIÓN DE TARJETAS */
+@keyframes fadeSlide {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RETRASO PROGRESIVO USANDO nth-child */
+.card:nth-child(1) { animation-delay: 0s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+.card:nth-child(5) { animation-delay: 0.4s; }
+.card:nth-child(6) { animation-delay: 0.5s; }
+/* Agregar más según sea necesario */
+</style>
+</head>
+<body>
+
+<!-- BOTÓN REGRESAR -->
+<a href="{{ url_for('index') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Regresar</a>
+
+<h1>Tu Carrito</h1>
+
+{% if autos %}
+    {% for auto in autos %}
+    <div class="card">
+        <img src="{{ url_for('static', filename='images/' ~ auto.imagen) }}">
+        <div class="info">
+            <h2>{{ auto.marca }} {{ auto.modelo }}</h2>
+            <p>Año: {{ auto.año }}</p>
+            <p>Precio: ${{ "{:,.2f}".format(auto.precio) }}</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('carrito_eliminar') }}">
+            <input type="hidden" name="id" value="{{ auto.id }}">
+            <button class="btn-delete">
+                <i class="fas fa-trash"></i> Eliminar
+            </button>
+        </form>
+    </div>
+    {% endfor %}
+
+    <a href="{{ url_for('checkout') }}" class="btn-checkout">Continuar a Checkout</a>
+
+{% else %}
+    <div class="empty-cart">Tu carrito está vacío</div>
+{% endif %}
+
+</body>
+</html>
